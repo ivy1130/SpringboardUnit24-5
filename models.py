@@ -58,3 +58,8 @@ class Feedback(db.Model):
     username = db.Column(db.Text, db.ForeignKey('users.username'))
 
     user = db.relationship('User', backref="feedbacks")
+
+    @classmethod
+    def add_feedback(cls, title, content, username):
+
+        return cls(title=title, content=content, username=username)

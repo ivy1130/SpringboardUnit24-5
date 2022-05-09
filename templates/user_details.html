@@ -8,6 +8,37 @@
     <li class="list-group-item">First Name: {{user.first_name}}</li>
     <li class="list-group-item">Last Name: {{user.last_name}}</li>
     <li class="list-group-item">Email: {{user.email}}</li>
+    {% if session['user'] == user.username %}
+    <li class="list-group-item"><form action="/users/{{user.username}}/delete" method="POST"><button class="btn-link">Delete User</button></form></li>
+    {% endif %}
 </ul>
+
+<h1 class="display-6">Feedback</h1>
+<div>
+    <a href="/users/{{user.username}}/feedback/add">Add Feedback</a>
+    {% for feedback in feedbacks %}
+    <div class="card my-4">
+      <div class="card-body">
+        <h5 class="card-title">
+          {{feedback.title}}
+          {% if session['user'] == feedback.username %}
+          <form style="display:inline;" action="/feedback/{{feedback.id}}/update" method="GET">
+            <button class="btn btn-sm btn-link">Update</button>
+          </form>
+          <form style="display:inline;" action="/feedback/{{feedback.id}}/delete" method="POST">
+            <button class="btn btn-sm btn-link">Delete</button>
+          </form>
+          {% endif %}
+        </h5>
+        <p class="card-text">
+          {{feedback.content}}
+        </p>
+  
+      </div>
+    </div>
+  
+    {%  endfor %}
+  </div>
+
 
 {% endblock %}
