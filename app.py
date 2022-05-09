@@ -70,4 +70,14 @@ def login_user():
 
 @app.route('/secret')
 def show_secret():
+    if "user" not in session:
+        flash("Please login first!", "danger")
+        return redirect('/login')
+
     return render_template('secret.html')
+
+@app.route("/logout", methods=["POST"])
+def logout_user():
+    session.pop('user')
+    flash("Goodbye!", "info")
+    return redirect('/')
