@@ -68,16 +68,17 @@ def login_user():
 
     return render_template('login_user.html', form=form)
 
-@app.route('/secret')
-def show_secret():
-    if "user" not in session:
-        flash("Please login first!", "danger")
-        return redirect('/login')
-
-    return render_template('secret.html')
-
 @app.route("/logout", methods=["POST"])
 def logout_user():
     session.pop('user')
     flash("Goodbye!", "info")
     return redirect('/')
+
+@app.route('/users/<username>')
+def show_user_details(username):
+    if "user" not in session:
+        flash("Please login first!", "danger")
+        return redirect('/login')
+
+    user = User.query.get_or_404(username)
+    return render_template('user_details.html', user=user)
